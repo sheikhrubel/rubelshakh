@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, isLightMode, toggleTheme
             INFRASTRUCTURE: <span style={{ color: accentHex }}>RUBEL_SHAKH</span>
           </h1>
           <p className="text-[10px] text-gray-500 mono leading-none uppercase">
-            Service Delivery Analyst | L3 Specialist
+            Lead Technical Support | L3 Specialist
           </p>
         </div>
       </div>
@@ -57,8 +57,8 @@ const Header: React.FC<HeaderProps> = ({ activeSection, isLightMode, toggleTheme
 
         <div className="hidden md:flex items-center space-x-8 mono text-[12px]">
           <div className="flex flex-col items-end">
-            <span className="text-gray-500 uppercase text-[9px]">MODULE</span>
-            <span className={`font-bold transition-colors`} style={{ color: accentHex }}>{activeSection}</span>
+            <span className="text-gray-500 uppercase text-[9px]">TEAM</span>
+            <span className={`font-bold transition-colors`} style={{ color: accentHex }}>LEAD</span>
           </div>
         </div>
       </div>
