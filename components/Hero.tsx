@@ -34,7 +34,7 @@ const Hero: React.FC<HeroProps> = ({ isLightMode }) => {
         <h1 className={`text-5xl md:text-7xl font-bold tracking-tighter transition-colors ${
           isLightMode ? 'text-slate-900' : 'text-white'
         }`}>
-          Md Rubel <span className={isLightMode ? 'text-emerald-600' : 'text-emerald-500'}>Shakh</span>
+          Rubel <span className={isLightMode ? 'text-emerald-600' : 'text-emerald-500'}>Shakh</span>
         </h1>
         
         <div className={`flex items-center space-x-3 mono text-lg md:text-xl font-medium transition-colors ${
@@ -60,7 +60,7 @@ const Hero: React.FC<HeroProps> = ({ isLightMode }) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8">
           {[
             { label: 'EXPERIENCE', val: '10+ YEARS' },
-            { label: 'CERTIFICATIONS', val: '12+ BADGES' },
+            { label: 'CERTIFICATIONS', val: '6+ BADGES' },
             { label: 'AVAILABILITY', val: '24/7' },
             { label: 'SLA_RATING', val: '99.9%' },
           ].map((stat, idx) => (
