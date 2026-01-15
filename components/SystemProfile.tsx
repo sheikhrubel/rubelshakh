@@ -8,6 +8,7 @@ interface SystemProfileProps {
 const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
   const [hexData, setHexData] = useState<string[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scanProgress, setScanProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,11 +24,23 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
     return () => clearInterval(interval);
   }, []);
 
+  // Update scan progress for the telemetry data follow-effect
+  useEffect(() => {
+    let frame: number;
+    const animate = (time: number) => {
+      const progress = (time % 4000) / 4000; // 4s cycle
+      setScanProgress(progress);
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20; // max 10deg tilt
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -20;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 15;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -15;
     setMousePos({ x, y });
   };
 
@@ -44,10 +57,6 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
           0%, 100% { transform: scale(1); opacity: 0.3; }
           50% { transform: scale(1.05); opacity: 0.8; }
         }
-        @keyframes rotateRing {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
         @keyframes waveform {
           0%, 100% { height: 4px; }
           50% { height: 12px; }
@@ -63,8 +72,18 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
           50% { opacity: 0.2; }
           70% { opacity: 0.9; }
         }
+        @keyframes biometricMesh {
+          0%, 100% { opacity: 0; transform: scale(1); }
+          50% { opacity: 0.15; transform: scale(1.02); }
+        }
+        @keyframes verticalScan {
+          0% { top: 0%; opacity: 0; }
+          5% { opacity: 1; }
+          95% { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
+        }
         .perspective-container {
-          perspective: 1000px;
+          perspective: 1200px;
         }
       `}</style>
 
@@ -76,7 +95,7 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
       </div>
 
       <div className="grid md:grid-cols-12 gap-10 items-start">
-        {/* Left Side: Animated Profile Column */}
+        {/* Left Side: Animated Profile Area */}
         <div 
           className="md:col-span-5 relative group perspective-container"
           ref={containerRef}
@@ -98,7 +117,7 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
             ))}
           </div>
 
-          {/* Left Side Hex Stream with dynamic flicker */}
+          {/* Side Data Stream */}
           <div className="absolute -left-14 top-0 bottom-0 w-10 hidden lg:flex flex-col items-center overflow-hidden pointer-events-none opacity-20">
             <div className="mono text-[8px] space-y-2 animate-[scrollHex_1.5s_linear_infinite]" style={{ color: isLightMode ? '#059669' : '#34d399' }}>
               {hexData.map((hex, i) => (
@@ -122,13 +141,9 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
 
           {/* Corner Brackets */}
           <div className="absolute -inset-6 pointer-events-none z-20">
-            {/* TL */}
             <div className={`absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 opacity-30 animate-[pulseBracket_3s_ease-in-out_infinite] ${isLightMode ? 'border-emerald-600' : 'border-emerald-500'}`}></div>
-            {/* TR */}
             <div className={`absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 opacity-30 animate-[pulseBracket_3s_ease-in-out_infinite] delay-75 ${isLightMode ? 'border-emerald-600' : 'border-emerald-500'}`}></div>
-            {/* BL */}
             <div className={`absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 opacity-30 animate-[pulseBracket_3s_ease-in-out_infinite] delay-150 ${isLightMode ? 'border-emerald-600' : 'border-emerald-500'}`}></div>
-            {/* BR */}
             <div className={`absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 opacity-30 animate-[pulseBracket_3s_ease-in-out_infinite] delay-200 ${isLightMode ? 'border-emerald-600' : 'border-emerald-500'}`}></div>
           </div>
 
@@ -143,55 +158,69 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
             }}
           >
             <img 
-              src="https://media.licdn.com/dms/image/v2/D4E03AQEpdOVXKeNW5A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1710825372600?e=1770249600&v=beta&t=ZG7sXkED-HRboSh7LbDdfQTszGNrB0Lg93m5DJc8LKU" 
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" 
               alt="Md Rubel Shakh"
               className={`w-full h-full object-cover transition-all duration-1000 ${
                 isLightMode ? 'opacity-90' : 'opacity-60 grayscale group-hover:grayscale-0'
               }`}
             />
 
-            {/* Periodic Glitch Effect Layers */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-40 pointer-events-none animate-[glitch_5s_infinite_2s]">
-                <img 
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" 
-                    className="w-full h-full object-cover grayscale mix-blend-screen"
-                />
+            {/* Periodic Biometric Wireframe Flash */}
+            <div className="absolute inset-0 pointer-events-none opacity-0 mix-blend-screen animate-[biometricMesh_8s_infinite] pointer-events-none" 
+                 style={{ 
+                   backgroundImage: 'linear-gradient(rgba(16, 185, 129, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 185, 129, 0.2) 1px, transparent 1px)',
+                   backgroundSize: '20px 20px',
+                   maskImage: 'radial-gradient(circle, black 40%, transparent 80%)'
+                 }}>
             </div>
 
-            {/* Matrix Overlay */}
+            {/* Matrix Texture Overlay */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#34d399 0.5px, transparent 0.5px)', backgroundSize: '12px 12px' }}></div>
 
-            <div className="absolute inset-0 pointer-events-none z-30" style={{ transform: 'translateZ(20px)' }}>
-              {/* Scanline */}
-              <div className={`absolute left-0 w-full h-[2px] blur-[1px] animate-[scan_6s_ease-in-out_infinite] bg-emerald-400 shadow-[0_0_10px_#34d399]`}></div>
-
-              {/* Advanced Ocular Tracker - follow mouse slightly? */}
-              <div 
-                className="absolute top-[28%] left-[45%] w-20 h-20 pointer-events-none"
-                style={{ transform: `translate(${mousePos.x * 0.5}px, ${-mousePos.y * 0.5}px)` }}
-              >
-                <div className={`absolute inset-0 border-2 rounded-full opacity-10 animate-pulse border-white`}></div>
-                <div className={`absolute inset-0 border border-emerald-500/20 rounded-full scale-125`}></div>
-                <div className={`absolute inset-2 border border-dashed rounded-full animate-[rotateRing_12s_linear_infinite] opacity-40 ${isLightMode ? 'border-emerald-600' : 'border-emerald-400'}`}></div>
-                <div className={`absolute inset-4 border border-dotted rounded-full animate-[rotateRing_8s_linear_infinite_reverse] opacity-30 ${isLightMode ? 'border-emerald-600' : 'border-emerald-400'}`}></div>
-                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_15px_red]`}></div>
-                
-                {/* Tracker Crosshairs */}
-                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-px h-2 bg-emerald-500/50"></div>
-                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-px h-2 bg-emerald-500/50"></div>
-                <div className="absolute top-1/2 -left-2 -translate-y-1/2 w-2 h-px bg-emerald-500/50"></div>
-                <div className="absolute top-1/2 -right-2 -translate-y-1/2 w-2 h-px bg-emerald-500/50"></div>
+            {/* Advanced Scanning HUD */}
+            <div className="absolute inset-0 pointer-events-none z-30" style={{ transform: 'translateZ(40px)' }}>
+              
+              {/* Dynamic Biometric Scan Line */}
+              <div className="absolute left-0 w-full h-px bg-emerald-400 shadow-[0_0_15px_#10b981,0_0_5px_white] animate-[verticalScan_4s_linear_infinite]">
+                {/* Scan Telemetry Attached to Line */}
+                <div className="absolute right-4 top-1 transform -translate-y-full mono text-[7px] text-emerald-400 space-y-0.5 opacity-80 bg-black/40 p-1 border-l border-emerald-500/50">
+                  <div className="flex justify-between space-x-2">
+                    <span>SCAN_Y:</span>
+                    <span>{(scanProgress * 100).toFixed(1)}%</span>
+                  </div>
+                  <div className="flex justify-between space-x-2">
+                    <span>OBJECT:</span>
+                    <span>HUMAN_LV3</span>
+                  </div>
+                  <div className="flex justify-between space-x-2">
+                    <span>VITAL:</span>
+                    <span className="animate-pulse">NOMINAL</span>
+                  </div>
+                </div>
+                {/* Left Side Tag */}
+                <div className="absolute left-4 top-1 transform -translate-y-full mono text-[6px] text-emerald-400 font-bold tracking-widest px-1 bg-emerald-500/20">
+                  BIOMETRIC_READING
+                </div>
               </div>
 
-              {/* Data Callouts */}
-              <div className="absolute top-8 left-16 mono text-[8px] space-y-1 opacity-80" style={{ transform: 'translateZ(30px)' }}>
-                <div className={`px-1 rounded-sm ${isLightMode ? 'bg-emerald-50 text-slate-900' : 'bg-black/50 text-white'}`}>LAT: 23.7941° N</div>
-                <div className={`px-1 rounded-sm ${isLightMode ? 'bg-emerald-50 text-slate-900' : 'bg-black/50 text-white'}`}>LON: 90.4261° E</div>
-                <div className={`pt-2 flex space-x-1.5`}>
-                   {Array.from({length: 5}).map((_, i) => (
-                     <div key={i} className={`w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse`} style={{animationDelay: `${i*0.15}s`}}></div>
-                   ))}
+              {/* Data Callouts at Fixed Positions (Depth Layer) */}
+              <div className="absolute top-12 left-10 mono text-[8px] space-y-1 opacity-80" style={{ transform: 'translateZ(20px)' }}>
+                <div className={`px-1 rounded-sm flex items-center space-x-2 ${isLightMode ? 'bg-emerald-50/80 text-slate-900' : 'bg-black/60 text-white'}`}>
+                   <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
+                   <span>LOC: 23.7941° N</span>
                 </div>
+                <div className={`px-1 rounded-sm flex items-center space-x-2 ${isLightMode ? 'bg-emerald-50/80 text-slate-900' : 'bg-black/60 text-white'}`}>
+                   <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
+                   <span>LOC: 90.4261° E</span>
+                </div>
+              </div>
+
+              {/* Periodic Glitch Overlay */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-30 pointer-events-none animate-[glitch_7s_infinite_3s]">
+                  <img 
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" 
+                      className="w-full h-full object-cover grayscale mix-blend-screen"
+                  />
               </div>
 
               {/* Bottom UI Bar */}
