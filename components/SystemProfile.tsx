@@ -158,7 +158,7 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
             }}
           >
             <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" 
+              src="https://media.licdn.com/dms/image/v2/D4E03AQEpdOVXKeNW5A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1710825372600?e=1770249600&v=beta&t=ZG7sXkED-HRboSh7LbDdfQTszGNrB0Lg93m5DJc8LKU" 
               alt="Md Rubel Shakh"
               className={`w-full h-full object-cover transition-all duration-1000 ${
                 isLightMode ? 'opacity-90' : 'opacity-60 grayscale group-hover:grayscale-0'
