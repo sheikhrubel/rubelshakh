@@ -10,7 +10,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, isLightMode }) => {
   const accentColor = 'emerald';
 
   const navItems = [
-    { id: 'HERO', label: '01_OVERVIEW', icon: 'M4 6h16M4 12h16M4 18h16' },
+    { id: 'HERO', label: '01_TEAM_LEAD', icon: 'M4 6h16M4 12h16M4 18h16' },
     { id: 'PROFILE', label: '02_PROFILE', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
     { id: 'SERVICES', label: '03_SERVICES', icon: 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2' },
     { id: 'LOGS', label: '04_INCIDENTS', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01' },
