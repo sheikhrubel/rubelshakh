@@ -11,8 +11,10 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
   const [scanProgress, setScanProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Updated Profile Image URL
+  const profileImageUrl = "https://media.licdn.com/dms/image/v2/D4E03AQEpdOVXKeNW5A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1710825372600?e=1770249600&v=beta&t=ZG7sXkED-HRboSh7LbDdfQTszGNrB0Lg93m5DJc8LKU";
+
   useEffect(() => {
-    // Generate random hex strings for the side stream
     const generateHex = () => {
       const chars = '0123456789ABCDEF';
       return Array.from({ length: 15 }, () => 
@@ -24,11 +26,10 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // Update scan progress for the telemetry data follow-effect
   useEffect(() => {
     let frame: number;
     const animate = (time: number) => {
-      const progress = (time % 4000) / 4000; // 4s cycle
+      const progress = (time % 4000) / 4000;
       setScanProgress(progress);
       frame = requestAnimationFrame(animate);
     };
@@ -38,9 +39,11 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
+    const isMobile = window.innerWidth < 768;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 15;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -15;
+    const multiplier = isMobile ? 5 : 15;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * multiplier;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -multiplier;
     setMousePos({ x, y });
   };
 
@@ -49,107 +52,49 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
   return (
     <div className="max-w-5xl">
       <style>{`
-        @keyframes scrollHex {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(-20px); }
-        }
-        @keyframes pulseBracket {
-          0%, 100% { transform: scale(1); opacity: 0.3; }
-          50% { transform: scale(1.05); opacity: 0.8; }
-        }
-        @keyframes waveform {
-          0%, 100% { height: 4px; }
-          50% { height: 12px; }
-        }
-        @keyframes glitch {
-          0% { clip-path: inset(80% 0 0 0); transform: translate(-2px, 2px); }
-          5% { clip-path: inset(10% 0 85% 0); transform: translate(2px, -2px); }
-          10% { clip-path: inset(80% 0 0 0); transform: translate(0); }
-          100% { clip-path: inset(80% 0 0 0); transform: translate(0); }
-        }
-        @keyframes dataFlicker {
-          0%, 100% { opacity: 0.8; }
-          50% { opacity: 0.2; }
-          70% { opacity: 0.9; }
-        }
-        @keyframes biometricMesh {
-          0%, 100% { opacity: 0; transform: scale(1); }
-          50% { opacity: 0.15; transform: scale(1.02); }
-        }
-        @keyframes verticalScan {
-          0% { top: 0%; opacity: 0; }
-          5% { opacity: 1; }
-          95% { opacity: 1; }
-          100% { top: 100%; opacity: 0; }
-        }
-        .perspective-container {
-          perspective: 1200px;
-        }
+        @keyframes scrollHex { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
+        @keyframes pulseBracket { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.05); opacity: 0.8; } }
+        @keyframes waveform { 0%, 100% { height: 4px; } 50% { height: 12px; } }
+        @keyframes glitch { 0% { clip-path: inset(80% 0 0 0); transform: translate(-2px, 2px); } 5% { clip-path: inset(10% 0 85% 0); transform: translate(2px, -2px); } 10% { clip-path: inset(80% 0 0 0); transform: translate(0); } 100% { clip-path: inset(80% 0 0 0); transform: translate(0); } }
+        @keyframes biometricMesh { 0%, 100% { opacity: 0; transform: scale(1); } 50% { opacity: 0.15; transform: scale(1.02); } }
+        @keyframes verticalScan { 0% { top: 0%; opacity: 0; } 5% { opacity: 1; } 95% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
       `}</style>
 
-      <div className="flex items-center space-x-4 mb-12">
-        <h2 className={`mono text-2xl font-bold tracking-tighter transition-colors ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
+      <div className="flex items-center space-x-4 mb-10 sm:mb-12">
+        <h2 className={`mono text-xl sm:text-2xl font-bold tracking-tighter transition-colors ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
           02_SYSTEM_PROFILE
         </h2>
         <div className={`flex-1 h-px transition-colors ${isLightMode ? 'bg-slate-200' : 'bg-emerald-900/30'}`}></div>
       </div>
 
       <div className="grid md:grid-cols-12 gap-10 items-start">
-        {/* Left Side: Animated Profile Area */}
         <div 
-          className="md:col-span-5 relative group perspective-container"
+          className="md:col-span-5 relative group"
           ref={containerRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={resetMouse}
+          style={{ perspective: '1200px' }}
         >
-          
-          {/* Top Waveform Animation */}
-          <div className="absolute -top-12 left-0 w-full flex items-end justify-center space-x-0.5 h-10 opacity-40">
-            {Array.from({ length: 30 }).map((_, i) => (
+          {/* Waveform Header Animation */}
+          <div className="absolute -top-10 left-0 w-full flex items-end justify-center space-x-0.5 h-8 opacity-40 overflow-hidden">
+            {Array.from({ length: 20 }).map((_, i) => (
               <div 
                 key={i} 
                 className={`w-0.5 rounded-full ${isLightMode ? 'bg-emerald-400' : 'bg-emerald-500'}`}
-                style={{ 
-                  animation: `waveform ${0.3 + Math.random()}s ease-in-out infinite`,
-                  animationDelay: `${i * 0.03}s`
-                }}
+                style={{ animation: `waveform ${0.3 + Math.random()}s ease-in-out infinite`, animationDelay: `${i * 0.03}s` }}
               />
             ))}
           </div>
 
-          {/* Side Data Stream */}
+          {/* Side Hex Data - Hidden on mobile to prevent overflow */}
           <div className="absolute -left-14 top-0 bottom-0 w-10 hidden lg:flex flex-col items-center overflow-hidden pointer-events-none opacity-20">
             <div className="mono text-[8px] space-y-2 animate-[scrollHex_1.5s_linear_infinite]" style={{ color: isLightMode ? '#059669' : '#34d399' }}>
-              {hexData.map((hex, i) => (
-                <div key={i} style={{ animation: `dataFlicker ${Math.random() * 2 + 1}s infinite` }}>{hex}</div>
-              ))}
-              {hexData.map((hex, i) => (
-                <div key={`dup-${i}`} style={{ animation: `dataFlicker ${Math.random() * 2 + 1}s infinite` }}>{hex}</div>
-              ))}
+              {hexData.map((hex, i) => <div key={i}>{hex}</div>)}
             </div>
           </div>
 
-          {/* Floating Data Tags */}
-          <div className="absolute -right-16 top-1/4 hidden lg:block space-y-4 pointer-events-none z-40">
-             <div className={`mono text-[7px] p-1 border animate-pulse ${isLightMode ? 'bg-white border-emerald-200 text-emerald-700' : 'bg-black/50 border-emerald-500/30 text-emerald-400'}`}>
-                SYSTEM_ID: L3_PRO
-             </div>
-             <div className={`mono text-[7px] p-1 border animate-pulse delay-500 ${isLightMode ? 'bg-white border-emerald-200 text-emerald-700' : 'bg-black/50 border-emerald-500/30 text-emerald-400'}`}>
-                AUTH_LVL: ALPHA
-             </div>
-          </div>
-
-          {/* Corner Brackets */}
-          <div className="absolute -inset-6 pointer-events-none z-20">
-            <div className={`absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 opacity-30 animate-[pulseBracket_3s_ease-in-out_infinite] ${isLightMode ? 'border-emerald-600' : 'border-emerald-500'}`}></div>
-            <div className={`absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 opacity-30 animate-[pulseBracket_3s_ease-in-out_infinite] delay-75 ${isLightMode ? 'border-emerald-600' : 'border-emerald-500'}`}></div>
-            <div className={`absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 opacity-30 animate-[pulseBracket_3s_ease-in-out_infinite] delay-150 ${isLightMode ? 'border-emerald-600' : 'border-emerald-500'}`}></div>
-            <div className={`absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 opacity-30 animate-[pulseBracket_3s_ease-in-out_infinite] delay-200 ${isLightMode ? 'border-emerald-600' : 'border-emerald-500'}`}></div>
-          </div>
-
-          {/* Image Container with 3D Tilt */}
           <div 
-            className={`relative aspect-[4/5] overflow-hidden border transition-all duration-300 shadow-2xl group-hover:shadow-emerald-500/20 ${
+            className={`relative aspect-[4/5] overflow-hidden border transition-all duration-300 shadow-2xl ${
               isLightMode ? 'bg-white border-slate-200' : 'bg-neutral-950 border-white/10'
             }`}
             style={{ 
@@ -158,157 +103,88 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
             }}
           >
             <img 
-              src="https://media.licdn.com/dms/image/v2/D4E03AQEpdOVXKeNW5A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1710825372600?e=1770249600&v=beta&t=ZG7sXkED-HRboSh7LbDdfQTszGNrB0Lg93m5DJc8LKU" 
+              src={profileImageUrl} 
               alt="Md Rubel Shakh"
               className={`w-full h-full object-cover transition-all duration-1000 ${
-                isLightMode ? 'opacity-90' : 'opacity-60 grayscale group-hover:grayscale-0'
+                isLightMode ? 'opacity-95' : 'opacity-70 grayscale group-hover:grayscale-0'
               }`}
             />
 
-            {/* Periodic Biometric Wireframe Flash */}
-            <div className="absolute inset-0 pointer-events-none opacity-0 mix-blend-screen animate-[biometricMesh_8s_infinite] pointer-events-none" 
+            <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-10 animate-[biometricMesh_8s_infinite]" 
                  style={{ 
                    backgroundImage: 'linear-gradient(rgba(16, 185, 129, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 185, 129, 0.2) 1px, transparent 1px)',
-                   backgroundSize: '20px 20px',
-                   maskImage: 'radial-gradient(circle, black 40%, transparent 80%)'
+                   backgroundSize: '20px 20px'
                  }}>
             </div>
 
-            {/* Matrix Texture Overlay */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#34d399 0.5px, transparent 0.5px)', backgroundSize: '12px 12px' }}></div>
-
-            {/* Advanced Scanning HUD */}
-            <div className="absolute inset-0 pointer-events-none z-30" style={{ transform: 'translateZ(40px)' }}>
+            <div className="absolute inset-0 pointer-events-none z-30">
+              <div className="absolute left-0 w-full h-px bg-emerald-400 shadow-[0_0_15px_#10b981] animate-[verticalScan_4s_linear_infinite]"></div>
               
-              {/* Dynamic Biometric Scan Line */}
-              <div className="absolute left-0 w-full h-px bg-emerald-400 shadow-[0_0_15px_#10b981,0_0_5px_white] animate-[verticalScan_4s_linear_infinite]">
-                {/* Scan Telemetry Attached to Line */}
-                <div className="absolute right-4 top-1 transform -translate-y-full mono text-[7px] text-emerald-400 space-y-0.5 opacity-80 bg-black/40 p-1 border-l border-emerald-500/50">
-                  <div className="flex justify-between space-x-2">
-                    <span>SCAN_Y:</span>
-                    <span>{(scanProgress * 100).toFixed(1)}%</span>
-                  </div>
-                  <div className="flex justify-between space-x-2">
-                    <span>OBJECT:</span>
-                    <span>HUMAN_LV3</span>
-                  </div>
-                  <div className="flex justify-between space-x-2">
-                    <span>VITAL:</span>
-                    <span className="animate-pulse">NOMINAL</span>
-                  </div>
-                </div>
-                {/* Left Side Tag */}
-                <div className="absolute left-4 top-1 transform -translate-y-full mono text-[6px] text-emerald-400 font-bold tracking-widest px-1 bg-emerald-500/20">
-                  BIOMETRIC_READING
-                </div>
-              </div>
-
-              {/* Data Callouts at Fixed Positions (Depth Layer) */}
-              <div className="absolute top-12 left-10 mono text-[8px] space-y-1 opacity-80" style={{ transform: 'translateZ(20px)' }}>
-                <div className={`px-1 rounded-sm flex items-center space-x-2 ${isLightMode ? 'bg-emerald-50/80 text-slate-900' : 'bg-black/60 text-white'}`}>
-                   <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
-                   <span>LOC: 23.7941° N</span>
-                </div>
-                <div className={`px-1 rounded-sm flex items-center space-x-2 ${isLightMode ? 'bg-emerald-50/80 text-slate-900' : 'bg-black/60 text-white'}`}>
-                   <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
-                   <span>LOC: 90.4261° E</span>
-                </div>
-              </div>
-
-              {/* Periodic Glitch Overlay */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-30 pointer-events-none animate-[glitch_7s_infinite_3s]">
-                  <img 
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" 
-                      className="w-full h-full object-cover grayscale mix-blend-screen"
-                  />
-              </div>
-
-              {/* Bottom UI Bar */}
-              <div className={`absolute bottom-0 left-0 w-full p-6 backdrop-blur-xl border-t transition-all ${
-                isLightMode 
-                  ? 'bg-white/95 border-slate-200 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]' 
-                  : 'bg-black/90 border-white/10 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]'
+              <div className={`absolute bottom-0 left-0 w-full p-4 sm:p-6 backdrop-blur-xl border-t transition-all ${
+                isLightMode ? 'bg-white/95 border-slate-200 shadow-lg' : 'bg-black/90 border-white/10'
               }`}>
-                <div className={`mono text-[9px] mb-1.5 tracking-[0.4em] font-bold ${
-                  isLightMode ? 'text-emerald-700' : 'text-emerald-400'
-                }`}>
-                  SPECIALIST_IDENTIFIED
+                <div className={`mono text-[8px] sm:text-[9px] mb-1 tracking-[0.3em] font-bold ${isLightMode ? 'text-emerald-700' : 'text-emerald-400'}`}>
+                  IDENTIFIED_SPECIALIST
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className={`mono text-2xl font-bold tracking-tight ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
-                    RUBEL_SHAKH<span className="opacity-30 text-lg">.L3</span>
-                  </div>
-                  <div className="flex space-x-1.5">
-                    {[20, 40, 60, 80, 100].map((delay, i) => (
-                       <div key={i} className={`w-2.5 h-2.5 rounded-sm bg-emerald-500 transition-all duration-500`} style={{ opacity: 0.2 + (i * 0.2), animation: `pulseBracket 2s infinite ${delay}ms` }}></div>
-                    ))}
+                  <div className={`mono text-lg sm:text-xl font-bold tracking-tight ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
+                    RUBEL_SHAKH<span className="opacity-40">.L3</span>
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Glitch Overlay with the correct image */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-20 pointer-events-none animate-[glitch_7s_infinite_2s]">
+                <img src={profileImageUrl} className="w-full h-full object-cover mix-blend-screen" alt="glitch" />
             </div>
           </div>
         </div>
 
-        {/* Right Side: Professional Summary */}
-        <div className="md:col-span-7 space-y-8">
-          <div className={`p-8 border rounded-sm transition-all shadow-sm relative overflow-hidden group/text ${
+        <div className="md:col-span-7 space-y-6 sm:space-y-8">
+          <div className={`p-6 sm:p-8 border rounded-sm transition-all shadow-sm ${
             isLightMode ? 'bg-white border-slate-200' : 'bg-neutral-900/30 border-white/5'
           }`}>
-            <div className={`absolute top-0 left-0 w-1.5 h-full bg-emerald-500 opacity-0 group-hover/text:opacity-100 transition-opacity duration-500`}></div>
-            <p className={`text-xl md:text-2xl leading-relaxed transition-colors relative z-10 mono font-medium ${isLightMode ? 'text-slate-600' : 'text-gray-300'}`}>
+            <p className={`text-lg sm:text-xl md:text-2xl leading-relaxed transition-colors mono font-medium ${isLightMode ? 'text-slate-600' : 'text-gray-300'}`}>
               Experienced Technical Support Specialist with 10+ years' expertise in resolving complex IT issues and managing large-scale infrastructure. Specialist in O365, Intune, and Enterprise Networking architectures.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className={`border p-6 rounded-sm transition-all shadow-sm group/card hover:scale-[1.02] ${
-              isLightMode ? 'bg-white border-emerald-200' : 'bg-emerald-950/10 border-emerald-900/20'
-            }`}>
-              <h3 className={`mono text-xs font-bold mb-6 tracking-[0.5em] uppercase transition-colors ${
-                isLightMode ? 'text-emerald-700' : 'text-emerald-500'
-              }`}>
+          <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className={`border p-5 sm:p-6 rounded-sm ${isLightMode ? 'bg-white border-emerald-200' : 'bg-emerald-950/10 border-emerald-900/20'}`}>
+              <h3 className={`mono text-[10px] font-bold mb-4 tracking-[0.4em] uppercase ${isLightMode ? 'text-emerald-700' : 'text-emerald-500'}`}>
                 CORE_DIRECTIVES
               </h3>
-              <ul className={`space-y-5 text-[11px] mono text-gray-500`}>
+              <ul className="space-y-4 text-[10px] sm:text-[11px] mono text-gray-500">
                 {[
-                  { h: 'FAST_RESPONSE', p: 'Fixing critical outages within strict SLA windows.' },
-                  { h: 'DATA_INTEGRITY', p: 'Ensuring zero data loss across multi-cloud infrastructure.' },
-                  { h: 'SYSTEM_AUDITING', p: 'Maintaining compliance through structured asset tracking.' }
+                  { h: 'FAST_RESPONSE', p: 'SLA-driven resolution.' },
+                  { h: 'DATA_INTEGRITY', p: 'Zero data loss goal.' },
+                  { h: 'SYSTEM_AUDITING', p: 'Compliance adherence.' }
                 ].map((item, i) => (
-                  <li key={i} className="flex items-start group/item">
-                    <span className={`${isLightMode ? 'text-emerald-600' : 'text-emerald-500'} mr-4 font-bold transition-all group-hover/item:translate-x-1.5`}>[0{i+1}]</span>
+                  <li key={i} className="flex items-start">
+                    <span className={`${isLightMode ? 'text-emerald-600' : 'text-emerald-500'} mr-3 font-bold`}>[0{i+1}]</span>
                     <div>
-                      <span className={`block font-bold mb-1 ${isLightMode ? 'text-slate-800' : 'text-gray-300'}`}>{item.h}</span>
-                      <span className="opacity-80 leading-relaxed">{item.p}</span>
+                      <span className={`block font-bold mb-0.5 ${isLightMode ? 'text-slate-800' : 'text-gray-300'}`}>{item.h}</span>
+                      <span className="opacity-80 leading-snug">{item.p}</span>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className={`border p-6 rounded-sm transition-all shadow-sm group/telemetry hover:scale-[1.02] ${
-              isLightMode ? 'bg-white border-emerald-200' : 'bg-emerald-950/10 border-emerald-900/20'
-            }`}>
-              <h3 className={`mono text-xs font-bold mb-6 tracking-[0.5em] uppercase transition-colors ${
-                isLightMode ? 'text-emerald-700' : 'text-emerald-500'
-              }`}>
+            <div className={`border p-5 sm:p-6 rounded-sm ${isLightMode ? 'bg-white border-emerald-200' : 'bg-emerald-950/10 border-emerald-900/20'}`}>
+              <h3 className={`mono text-[10px] font-bold mb-4 tracking-[0.4em] uppercase ${isLightMode ? 'text-emerald-700' : 'text-emerald-500'}`}>
                 INFRA_TELEMETRY
               </h3>
-              <div className="space-y-8">
-                {[
-                  { label: 'INCIDENT_TRIAGE', pct: '95%', color: 'bg-emerald-500' },
-                  { label: 'KNOWLEDGE_ENGINEERING', pct: '90%', color: 'bg-emerald-400' },
-                  { label: 'HARDWARE_PROVISIONING', pct: '88%', color: 'bg-emerald-300' },
-                ].map((stat, i) => (
+              <div className="space-y-5">
+                {[ { label: 'TRIAGE', pct: '95%' }, { label: 'KNOWLEDGE', pct: '90%' }, { label: 'HARDWARE', pct: '88%' } ].map((stat, i) => (
                   <div key={i}>
-                    <div className="flex justify-between mono text-[11px] text-gray-500 mb-2.5">
-                      <span className="font-bold tracking-tighter">{stat.label}</span>
+                    <div className="flex justify-between mono text-[10px] text-gray-500 mb-1.5">
+                      <span className="font-bold">{stat.label}</span>
                       <span className="text-emerald-500 font-bold">{stat.pct}</span>
                     </div>
-                    <div className={`h-2 rounded-full overflow-hidden transition-colors ${isLightMode ? 'bg-slate-100' : 'bg-black'}`}>
-                      <div className={`h-full transition-all duration-[1500ms] ease-out ${
-                        isLightMode ? 'bg-emerald-600' : stat.color + '/70'
-                      }`} style={{ width: stat.pct }}></div>
+                    <div className={`h-1.5 rounded-full overflow-hidden ${isLightMode ? 'bg-slate-100' : 'bg-black'}`}>
+                      <div className="h-full bg-emerald-500 opacity-70" style={{ width: stat.pct }}></div>
                     </div>
                   </div>
                 ))}
