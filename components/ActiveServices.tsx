@@ -6,8 +6,6 @@ interface ActiveServicesProps {
 }
 
 const ActiveServices: React.FC<ActiveServicesProps> = ({ isLightMode }) => {
-  const accentColor = 'emerald';
-
   const groups = [
     {
       title: 'Infrastructure & Data Center',
@@ -35,6 +33,19 @@ const ActiveServices: React.FC<ActiveServicesProps> = ({ isLightMode }) => {
       items: ['Windows/macOS Expert', 'Ticketing Lifecycle', 'Workflow Automation', 'Documentation Lead'],
       status: 'STABLE'
     }
+  ];
+
+  const technicalStack = [
+    'Rack installation',
+    'Server staging',
+    'Structured cabling',
+    'Hardware installation',
+    'Diagnostics',
+    'Troubleshooting',
+    'ITSM (ticketing)',
+    'SLA/KPI adherence',
+    'Documentation (SOPs)',
+    'Shift/24x7 operations'
   ];
 
   return (
@@ -93,17 +104,17 @@ const ActiveServices: React.FC<ActiveServicesProps> = ({ isLightMode }) => {
       <div className={`mt-12 border p-6 rounded mono transition-all shadow-sm ${
         isLightMode ? 'bg-white border-slate-200' : 'bg-emerald-950/5 border-emerald-900/20'
       }`}>
-        <div className={`text-[11px] mb-4 tracking-widest font-bold transition-colors ${
+        <div className={`text-[11px] mb-6 tracking-widest font-bold transition-colors ${
           isLightMode ? 'text-emerald-700' : 'text-emerald-600'
         }`}>
-          TECHNICAL_STACK
+          TECHNICAL_STACK // OPS_CAPABILITIES
         </div>
-        <div className="flex flex-wrap gap-4">
-          {['ServiceNow', 'ZenDesk', 'Microsoft Teams', 'PowerShell', 'Python', 'SQL', 'HTML/CSS'].map((tech) => (
-            <div key={tech} className={`px-3 py-1 bg-black border text-[10px] text-gray-400 transition-all ${
+        <div className="flex flex-wrap gap-3">
+          {technicalStack.map((tech) => (
+            <div key={tech} className={`px-3 py-1.5 border text-[10px] transition-all ${
               isLightMode 
-                ? 'bg-slate-50 border-slate-200 text-slate-500 font-medium' 
-                : 'border-emerald-900/50'
+                ? 'bg-slate-50 border-slate-200 text-slate-600 hover:border-emerald-300 hover:text-emerald-700' 
+                : 'bg-black border-emerald-900/50 text-gray-400 hover:border-emerald-500/50 hover:text-emerald-400'
             }`}>
               {tech}
             </div>
