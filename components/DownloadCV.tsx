@@ -27,7 +27,7 @@ const DownloadCV: React.FC<DownloadCVProps> = ({ isLightMode }) => {
           ? 'bg-white border-slate-200 text-slate-800 shadow-lg' 
           : 'bg-black border-emerald-500/50 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
       }`}>
-        DOWNLOAD_RESUME_v2.5
+        DOWNLOAD_RESUME_LATEST
       </div>
 
       <a 
