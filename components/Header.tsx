@@ -29,36 +29,36 @@ const Header: React.FC<HeaderProps> = ({ activeSection, isLightMode, toggleTheme
     <header className={`fixed top-0 left-0 w-full h-16 backdrop-blur-md border-b flex items-center justify-between px-3 sm:px-6 z-50 transition-all ${
       isLightMode ? 'bg-white/95 border-slate-200 shadow-sm' : 'bg-black/95 border-emerald-900/30'
     }`}>
-      {/* Left: Branding - Flex shrink 0 prevents it from pushing center module */}
+      {/* Left: Branding */}
       <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
         <div className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center border transition-all ${
           isLightMode ? 'bg-emerald-50 border-emerald-200' : 'bg-emerald-500/10 border-emerald-500/50'
         }`}>
           <span className="mono font-bold text-lg" style={{ color: accentHex }}>R</span>
         </div>
-        <div className="hidden sm:block overflow-hidden">
+        <div className="hidden xs:block overflow-hidden">
           <h1 className={`mono text-[10px] sm:text-xs font-bold tracking-tighter truncate transition-colors ${
             isLightMode ? 'text-slate-900' : 'text-gray-100'
           }`}>
             RUBEL_SHAKH
           </h1>
           <p className="text-[8px] sm:text-[9px] text-gray-500 mono leading-none uppercase truncate">
-            Specialist
+            Infrastructure Specialist
           </p>
         </div>
       </div>
 
-      {/* Center: Module Indicator (Protected Center) */}
-      <div className="flex flex-col items-center justify-center px-4 flex-1 min-w-0 text-center">
+      {/* Center: Module Indicator (Visible on all device types) */}
+      <div className="flex flex-col items-center justify-center px-4 flex-1 min-w-0">
         <span className="text-gray-500 uppercase text-[7px] sm:text-[8px] mono leading-none mb-1 tracking-widest opacity-60">
           ACTIVE_MODULE
         </span>
-        <span className="mono text-[10px] sm:text-[11px] font-bold tracking-tighter whitespace-nowrap overflow-hidden text-ellipsis w-full" style={{ color: accentHex }}>
+        <span className="mono text-[10px] sm:text-[11px] font-bold tracking-tighter whitespace-nowrap overflow-hidden text-ellipsis w-full text-center" style={{ color: accentHex }}>
           {getDisplayLabel(activeSection)}
         </span>
       </div>
 
-      {/* Right: Actions - Flex shrink 0 protects center space */}
+      {/* Right: Actions */}
       <div className="flex items-center space-x-1.5 sm:space-x-3 flex-shrink-0">
         <button 
           onClick={toggleTheme}
