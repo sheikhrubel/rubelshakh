@@ -10,6 +10,7 @@ import Credentials from './components/Credentials';
 import Contact from './components/Contact';
 import Sidebar from './components/Sidebar';
 import SystemBoot from './components/SystemBoot';
+import DownloadCV from './components/DownloadCV';
 
 const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState('HERO');
@@ -63,6 +64,9 @@ const App: React.FC = () => {
     <>
       {isBooting && <SystemBoot onComplete={() => setIsBooting(false)} />}
       
+      {/* Floating Download Node - Outside transition wrapper for immediate persistent visibility */}
+      <DownloadCV isLightMode={isLightMode} />
+
       <div className={`min-h-screen flex flex-col transition-all duration-1000 ${
         isBooting ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
       } ${
