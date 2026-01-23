@@ -38,7 +38,7 @@ const ActiveServices: React.FC<ActiveServicesProps> = ({ isLightMode }) => {
   const technicalStack = [
     'Rack installation',
     'Server staging',
-    'Structured cabling',
+    'Structured cabling (Copper/Fiber)',
     'Hardware installation',
     'Diagnostics',
     'Troubleshooting',
