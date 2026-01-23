@@ -77,12 +77,11 @@ const App: React.FC = () => {
           isMenuOpen={isMenuOpen}
         />
 
-        {/* Mobile Navigation Overlay - Solid background fix */}
+        {/* Mobile Navigation Overlay */}
         <div className={`fixed inset-0 z-[70] bg-[#0a0a0a] transition-all duration-500 lg:hidden flex flex-col ${
           isMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}>
           <div className="flex flex-col items-center justify-center flex-1 space-y-8 p-6 relative">
-            {/* Close Button Inside Menu */}
             <button 
               onClick={toggleMenu}
               className="absolute top-6 right-6 p-4 text-emerald-500"
@@ -92,7 +91,7 @@ const App: React.FC = () => {
               </svg>
             </button>
 
-            <div className="mono text-[10px] text-emerald-500/50 tracking-[0.5em] mb-4">SYSTEM_NAV_OVERRIDE</div>
+            <div className="mono text-[10px] text-emerald-500/50 tracking-[0.5em] mb-4 uppercase">System Navigation</div>
             
             <nav className="flex flex-col items-center space-y-6">
               {navItems.map((item) => (
