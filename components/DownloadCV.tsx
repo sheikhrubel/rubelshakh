@@ -32,7 +32,7 @@ const DownloadCV: React.FC<DownloadCVProps> = ({ isLightMode }) => {
 
       <a 
         href="https://drive.google.com/file/d/1SsK52LUgxga9O5IRIHAeW8FGn1b6o4fJ/view?usp=drivesdk" 
-        download="Md_Rubel_Shakh_Resume.pdf"
+        download="Md_Rubel_Shakh_Resume.pdf" target="_blank"
         className={`pointer-events-auto relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 transition-all duration-500 rounded-sm border data-node-glow hover:scale-110 active:scale-95 ${
           isLightMode 
             ? 'bg-white border-slate-200 text-slate-600' 
