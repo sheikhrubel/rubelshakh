@@ -27,7 +27,6 @@ const SystemBoot: React.FC<SystemBootProps> = ({ onComplete }) => {
   ];
 
   useEffect(() => {
-    // Phase 1: Rapid scrolling logs
     let i = 0;
     const logInterval = setInterval(() => {
       if (i < kernelMessages.length) {
@@ -78,7 +77,6 @@ const SystemBoot: React.FC<SystemBootProps> = ({ onComplete }) => {
 
   return (
     <div className="fixed inset-0 z-[100] bg-[#020202] flex flex-col items-center justify-center overflow-hidden p-6">
-      {/* Professional UI Header */}
       <div className="absolute top-10 left-10 hidden md:block mono text-[10px] text-emerald-500/20 uppercase tracking-[0.4em]">
         Rubel Shakh // Portfolio System v2.5
       </div>
@@ -86,7 +84,6 @@ const SystemBoot: React.FC<SystemBootProps> = ({ onComplete }) => {
         Status: Auth_Guest_OK
       </div>
 
-      {/* Background Matrix Grid */}
       <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ 
         backgroundImage: 'linear-gradient(#10b981 1px, transparent 1px), linear-gradient(90deg, #10b981 1px, transparent 1px)',
         backgroundSize: '60px 60px'
@@ -98,7 +95,7 @@ const SystemBoot: React.FC<SystemBootProps> = ({ onComplete }) => {
             <div className="space-y-1.5 mono text-[10px] sm:text-xs text-emerald-500/60 overflow-hidden">
               {logs.map((log, i) => (
                 <div key={i} className="animate-in slide-in-from-bottom-2 duration-300 truncate border-l-2 border-transparent hover:border-emerald-500/30 pl-2">
-                  <span className="text-emerald-500/30">>></span> {log}
+                  <span className="text-emerald-500/30">{">>"}</span> {log}
                 </div>
               ))}
               <div className="w-1.5 h-3 sm:w-2 sm:h-4 bg-emerald-500/40 animate-pulse inline-block align-middle ml-1"></div>
@@ -150,7 +147,6 @@ const SystemBoot: React.FC<SystemBootProps> = ({ onComplete }) => {
         Skip System Intro [ESC]
       </button>
 
-      {/* Very subtle CRT line - reduced opacity to feel more modern/clean */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_2px,3px_100%] opacity-20"></div>
     </div>
   );
