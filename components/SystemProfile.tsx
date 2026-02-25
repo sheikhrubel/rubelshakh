@@ -145,8 +145,8 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
           <div className={`p-6 sm:p-8 border rounded-sm transition-all shadow-sm ${
             isLightMode ? 'bg-white border-slate-200' : 'bg-neutral-900/30 border-white/5'
           }`}>
-            <p className={`text-lg sm:text-xl md:text-2xl leading-relaxed transition-colors mono font-medium ${isLightMode ? 'text-slate-600' : 'text-gray-300'}`}>
-              I’m a results-oriented IT professional with extensive experience supporting enterprise environments and leading technical support teams. Skilled in daily operational support, incident resolution, and mentoring team members to improve performance. <br />
+            <p className={`text-lg sm:text-xl md:text-2xl leading-relaxed transition-colors mono font-small ${isLightMode ? 'text-slate-600' : 'text-gray-300'}`}>
+              I’m a results-oriented IT professional with extensive experience supporting enterprise environments and leading technical support teams. Skilled in daily operational support, incident resolution, and mentoring team members to improve performance. <br /><br />
 
 My background includes managing data center operations, system administration, and ensuring continuous uptime through proactive monitoring and infrastructure optimization. I thrive in fast-paced environments and take pride in building efficient support workflows that drive both technical excellence and strong team collaboration
             </p>
