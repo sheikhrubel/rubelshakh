@@ -7,7 +7,7 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ isLightMode }) => {
   const [text, setText] = useState('');
-  const fullText = "Infrastructure Specialist dedicated to building resilient systems and delivering world-class IT support operations.";
+  const fullText = "Driven technical leader with hands-on expertise in support operations, team leadership, and large-scale data center environments. Proven ability to coordinate support teams, optimize workflows, and manage critical infrastructure to deliver reliable IT services and uptime.";
 
   useEffect(() => {
     let i = 0;
@@ -40,7 +40,7 @@ const Hero: React.FC<HeroProps> = ({ isLightMode }) => {
           isLightMode ? 'text-emerald-700' : 'text-emerald-400'
         }`}>
           <span className="opacity-50 mt-1">{'>'}</span>
-          <span>IT Service Delivery Expert | Infrastructure Specialist | Support Lead</span>
+          <span>IT Infrastructure & Data Center Specialist | IT Support Lead</span>
         </div>
 
         <div className={`border p-5 sm:p-8 rounded-sm relative overflow-hidden backdrop-blur-sm min-h-[140px] transition-all shadow-sm ${
