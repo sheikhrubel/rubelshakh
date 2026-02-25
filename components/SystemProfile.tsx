@@ -12,7 +12,7 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Updated Profile Image URL
-  const profileImageUrl = "https://media.licdn.com/dms/image/v2/D4E03AQEpdOVXKeNW5A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1710825372600?e=1770249600&v=beta&t=ZG7sXkED-HRboSh7LbDdfQTszGNrB0Lg93m5DJc8LKU";
+  const profileImageUrl = "https://i.ibb.co/TBhQBszm/rubel.jpg";
 
   useEffect(() => {
     const generateHex = () => {
