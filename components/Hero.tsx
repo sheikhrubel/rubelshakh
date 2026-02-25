@@ -33,14 +33,14 @@ const Hero: React.FC<HeroProps> = ({ isLightMode }) => {
         <h1 className={`text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter transition-colors leading-tight ${
           isLightMode ? 'text-slate-900' : 'text-white'
         }`}>
-          Md Rubel <span className={isLightMode ? 'text-emerald-600' : 'text-emerald-500'}>Shakh</span>
+          Rubel <span className={isLightMode ? 'text-emerald-600' : 'text-emerald-500'}>Shakh</span>
         </h1>
         
         <div className={`flex items-start space-x-3 mono text-base sm:text-lg md:text-xl font-medium transition-colors ${
           isLightMode ? 'text-emerald-700' : 'text-emerald-400'
         }`}>
           <span className="opacity-50 mt-1">{'>'}</span>
-          <span>IT Service Delivery Analyst | Infrastructure Specialist</span>
+          <span>IT Service Delivery Expert | Infrastructure Specialist | Support Lead</span>
         </div>
 
         <div className={`border p-5 sm:p-8 rounded-sm relative overflow-hidden backdrop-blur-sm min-h-[140px] transition-all shadow-sm ${
@@ -59,7 +59,8 @@ const Hero: React.FC<HeroProps> = ({ isLightMode }) => {
         <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 sm:pt-8">
           {[
             { label: 'EXPERIENCE', val: '10+ YEARS' },
-            { label: 'CERTIFICATIONS', val: '12+ BADGES' },
+            { label: 'CERTIFICATIONS', val: '6+ BADGES' },
+            { label: 'PROJECTS', val: '10+ COMPLETED' },
             { label: 'AVAILABILITY', val: '24/7' },
             { label: 'SLA_RATING', val: '99.9%' },
           ].map((stat, idx) => (
