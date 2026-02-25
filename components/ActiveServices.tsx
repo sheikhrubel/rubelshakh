@@ -10,27 +10,30 @@ const ActiveServices: React.FC<ActiveServicesProps> = ({ isLightMode }) => {
     {
       title: 'Infrastructure & Data Center',
       items: [
-        'Data Center Server Break-Fix',
-        'DIMM & CPU Replacement',
-        'Motherboard & Parts Replacement',
-        'Teradata IntelliFlex Rack Ops',
-        'Structured Cabling (L0/L1)'
+        'Data Center Incident Ownership (P1–P3)',
+        'Server Break/Fix & Hardware Lifecycle',
+        'CPU, DIMM, PSU & Board Replacement',
+        'Rack Deployment & Decommissioning',
+        'Structured Cabling (L0/L1) & Electrical grounding',
+        'Vendor Coordination & RMA Handling'
       ],
       status: 'RUNNING'
     },
     {
       title: 'Cloud & Identity',
-      items: ['O365 Admin', 'Intune Mobile Mgmt', 'SharePoint Architecture', 'Identity Security'],
+      items: ['Microsoft 365 Administration (Tenant-level)', 
+              'Intune Device & Policy Management', 'Identity & Access Governance', 'SharePoint Service Architecture', 'Secure Identity & Conditional Access'],
       status: 'ACTIVE'
     },
     {
       title: 'Security & Networking',
-      items: ['Enterprise VPN Config', 'LAN/WAN Optimization', 'Secure Access Control', 'Cybersecurity Triage'],
+      items: ['Enterprise VPN Config', 'Enterprise LAN/WAN Operations', 'Secure Access Control', 'Network Incident Triage & RCA'],
       status: 'SECURE'
     },
     {
       title: 'IT Operations & Help',
-      items: ['Windows/macOS Expert', 'Ticketing Lifecycle', 'Workflow Automation', 'Documentation Lead'],
+      items: ['Support Team Coordination (L1–L3)', 'Incident Escalation & Queue Management', 
+              'SLA, KPI & Ticket Lifecycle Ownership', 'Knowledge Base & Documentation Lead', 'Process & Workflow Automation'],
       status: 'STABLE'
     }
   ];
