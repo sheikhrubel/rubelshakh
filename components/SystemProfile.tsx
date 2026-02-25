@@ -146,7 +146,9 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
             isLightMode ? 'bg-white border-slate-200' : 'bg-neutral-900/30 border-white/5'
           }`}>
             <p className={`text-lg sm:text-xl md:text-2xl leading-relaxed transition-colors mono font-medium ${isLightMode ? 'text-slate-600' : 'text-gray-300'}`}>
-              Experienced Technical Support Specialist with 10+ years' expertise in resolving complex IT issues and managing large-scale infrastructure. Specialist in O365, Intune, and Enterprise Networking architectures.
+              I’m a results-oriented IT professional with extensive experience supporting enterprise environments and leading technical support teams. Skilled in daily operational support, incident resolution, and mentoring team members to improve performance. <br />
+
+My background includes managing data center operations, system administration, and ensuring continuous uptime through proactive monitoring and infrastructure optimization. I thrive in fast-paced environments and take pride in building efficient support workflows that drive both technical excellence and strong team collaboration
             </p>
           </div>
 
@@ -158,8 +160,9 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
               <ul className="space-y-4 text-[10px] sm:text-[11px] mono text-gray-500">
                 {[
                   { h: 'FAST_RESPONSE', p: 'SLA-driven resolution.' },
-                  { h: 'DATA_INTEGRITY', p: 'Zero data loss goal.' },
-                  { h: 'SYSTEM_AUDITING', p: 'Compliance adherence.' }
+                  { h: 'OPERATIONAL_EXCELLENCE', p: 'SLA, change control, and audit readiness' },
+                  { h: 'TEAM_ENABLEMENT', p: 'Mentoring L1/L2 engineers, workload balancing' },
+                  { h: 'INCIDENT_OWNERSHIP', p: 'End-to-end incident handling, escalation & RCA' }
                 ].map((item, i) => (
                   <li key={i} className="flex items-start">
                     <span className={`${isLightMode ? 'text-emerald-600' : 'text-emerald-500'} mr-3 font-bold`}>[0{i+1}]</span>
@@ -177,7 +180,10 @@ const SystemProfile: React.FC<SystemProfileProps> = ({ isLightMode }) => {
                 INFRA_TELEMETRY
               </h3>
               <div className="space-y-5">
-                {[ { label: 'TRIAGE', pct: '95%' }, { label: 'KNOWLEDGE', pct: '90%' }, { label: 'HARDWARE', pct: '88%' } ].map((stat, i) => (
+                {[ { label: 'DATA CENTER OPS', pct: 'Server, rack, cabling, power' }, 
+                  { label: 'INCIDENT RESPONSE', pct: 'P1 / P2 handling' }, 
+                  { label: 'HARDWARE LIFECYCLE', pct: 'Break/fix, swaps, RMA' } 
+                 ].map((stat, i) => (
                   <div key={i}>
                     <div className="flex justify-between mono text-[10px] text-gray-500 mb-1.5">
                       <span className="font-bold">{stat.label}</span>
