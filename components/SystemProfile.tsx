@@ -189,9 +189,7 @@ My background includes managing data center operations, system administration, a
                       <span className="font-bold">{stat.label}</span>
                       <span className="text-emerald-500 font-bold">{stat.pct}</span>
                     </div>
-                    <div className={`h-1.5 rounded-full overflow-hidden ${isLightMode ? 'bg-slate-100' : 'bg-black'}`}>
-                      <div className="h-full bg-emerald-500 opacity-70" style={{ width: stat.pct }}></div>
-                    </div>
+                   
                   </div>
                 ))}
               </div>
